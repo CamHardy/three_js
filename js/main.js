@@ -1,4 +1,5 @@
 // main.js
+'use strict';
 
 window.onload = function () {
 	// set the scene size
@@ -31,4 +32,56 @@ window.onload = function () {
 
 	// attach the renderer-supplied DOM element
 	container.appendChild(renderer.domElement);
+
+	addSphere(scene);
+	addLight(scene);
+
+	function update() {
+	// draw the scene!
+	renderer.render(scene, camera);
+
+	// schedule the next frame
+	requestAnimationFrame(update);
+	}
+
+	// schedule the first frame
+	requestAnimationFrame(update);
+}
+
+function addSphere(scene) {
+	// set up the sphere constants
+	const RADIUS = 50;
+	const SEGMENTS = 16;
+	const RINGS = 16;
+	const sphereMaterial = new THREE.MeshLambertMaterial(
+	{
+		color: 0x0000CC
+	});
+
+	// create a new mesh with sphere geometry
+	const sphere = new THREE.Mesh(
+		new THREE.SphereGeometry(
+			RADIUS,
+			SEGMENTS,
+			RINGS),
+		sphereMaterial);
+
+	// move the sphere where we can see it
+	sphere.position.z = -300;
+
+	// add the sphere to the scene
+	scene.add(sphere);
+}
+
+function addLight(scene) {
+	// create a point light
+	const pointLight = new THREE.PointLight(0xFFFFFF);
+
+	// set the light's position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+
+	// add to the scene
+	scene.add(pointLight);
 }
